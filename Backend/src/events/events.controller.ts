@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Put, Param, Body, Query, UseGuards, Req } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateEventDto } from './dto/create-event.dto';
@@ -21,4 +21,10 @@ export class EventsController {
     const userId = req.user.id;
     return this.eventsService.createEvent(createEventDto, userId);
   }
+
+  @Put(':id')
+  async updateEvent(@Param('id') id: string, @Body() updateEventDto: CreateEventDto) {
+    return this.eventsService.updateEvent(id, updateEventDto);
+  }
 }
+

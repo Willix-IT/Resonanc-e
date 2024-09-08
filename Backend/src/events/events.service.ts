@@ -43,4 +43,17 @@ export class EventsService {
       where: { title: createEventDto.title, user: { id: userId } },
     });
   }
+  async updateEvent(id: string, updateEventDto: CreateEventDto): Promise<Event> {
+    const event = await this.eventsRepository.findOneBy({ id: +id });
+    if (!event) {
+      throw new Error('Event not found');
+    }
+  
+    // Mise à jour des champs
+    event.title = updateEventDto.title;
+    event.startTime = new Date(updateEventDto.startTime);
+    event.endTime = new Date(updateEventDto.endTime);
+  
+    return this.eventsRepository.save(event);  // Sauvegarde de l'événement modifié
+  }
 }
