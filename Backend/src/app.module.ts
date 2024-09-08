@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
+import { Event } from './events/event.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { User } from './users/user.entity';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User], 
+        entities: [User, Event], 
         synchronize: true,  // Ne pas activer en production (crée les tables automatiquement)
       }),
     }),

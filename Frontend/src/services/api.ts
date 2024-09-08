@@ -15,3 +15,16 @@ export const loginUser = async (email: string, password: string) => {
   console.log("Login request:", { email, password });
   return response.data;
 };
+
+export const getEventsForCurrentWeek = async (token: string) => {
+  try {
+    const response = await axios.get(`${API_URL}/events?week=current`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
