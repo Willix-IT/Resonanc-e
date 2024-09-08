@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Event } from './event.entity';
 import { MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import { startOfWeek, endOfWeek } from 'date-fns';
+import { CreateEventDto } from './dto/create-event.dto';
 
 @Injectable()
 export class EventsService {
@@ -24,5 +25,13 @@ export class EventsService {
         endTime: LessThanOrEqual(endOfCurrentWeek),
       },
     });
+  }
+
+  async createEvent(createEventDto: CreateEventDto, userId: number): Promise<Event> {
+    const event = this.eventsRepository.create({
+      ...createEventDto,
+      user: { id: userId },
+    });
+    return this.eventsRepository.save(event);
   }
 }

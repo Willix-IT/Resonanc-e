@@ -18,11 +18,27 @@ export const loginUser = async (email: string, password: string) => {
 
 export const getEventsForCurrentWeek = async (token: string) => {
   try {
+    console.log(token)
     const response = await axios.get(`${API_URL}/events?week=current`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createEvent = async (token: string, eventData: any) => {
+  try {
+    console.log("ahahahahaha", eventData)
+    const response = await axios.post(`${API_URL}/events`, eventData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    
     return response.data;
   } catch (error) {
     throw error;

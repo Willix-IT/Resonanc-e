@@ -1,18 +1,24 @@
-import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, UseGuards, Req } from '@nestjs/common';
 import { EventsService } from './events.service';
-import { JwtAuthGuard } from '@src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CreateEventDto } from './dto/create-event.dto';
 
 @Controller('events')
+@UseGuards(JwtAuthGuard)
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
-  @UseGuards(JwtAuthGuard) // Vérifie que l'utilisateur est connecté
   @Get()
   async getEvents(@Query('week') week: string, @Req() req: any) {
-    const userId = req.user.id; // Récupère l'ID de l'utilisateur connecté
+    const userId = req.user.id;
     if (week === 'current') {
       return this.eventsService.getEventsForCurrentWeek(userId);
     }
-    // Gestion d'autres cas éventuels
+  }
+
+  @Post()
+  async createEvent(@Body() createEventDto: CreateEventDto, @Req() req: any) {
+    const userId = req.user.id;
+    return this.eventsService.createEvent(createEventDto, userId);
   }
 }

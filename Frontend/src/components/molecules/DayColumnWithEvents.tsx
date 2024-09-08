@@ -3,11 +3,13 @@ import DayColumn from '../atoms/DayColumn';
 import TimeSlot from '../atoms/TimeSlot';
 import EventItem from '../atoms/EventItem';
 
-const DayColumnWithEvents: React.FC<{ dayIndex: number, events: any[] }> = ({ dayIndex, events }) => {
+const DayColumnWithEvents: React.FC<{ dayIndex: number, events: any[], onTimeSlotClick: (timeSlot: any) => void }> = ({ dayIndex, events, onTimeSlotClick }) => {
   return (
     <DayColumn>
       {[...Array(24)].map((_, hourIndex) => (
-        <TimeSlot key={hourIndex}>{hourIndex}:00</TimeSlot>
+        <TimeSlot key={hourIndex} onClick={() => onTimeSlotClick({ dayIndex, hourIndex })}>
+          {hourIndex}:00
+        </TimeSlot>
       ))}
       {events
         .filter((event) => new Date(event.startTime).getDay() === dayIndex)
