@@ -27,11 +27,20 @@ export class EventsService {
     });
   }
 
-  async createEvent(createEventDto: CreateEventDto, userId: number): Promise<Event> {
+  async createEvent(
+    createEventDto: CreateEventDto,
+    userId: number,
+  ): Promise<Event> {
     const event = this.eventsRepository.create({
       ...createEventDto,
       user: { id: userId },
     });
-    return this.eventsRepository.save(event);
+    // Utilise `insert` au lieu de `save` pour forcer l'insertion
+    await this.eventsRepository.insert(event);
+
+    // Optionnel : Utiliser `findOne` pour retourner l'événement créé
+    return this.eventsRepository.findOne({
+      where: { title: createEventDto.title, user: { id: userId } },
+    });
   }
 }
