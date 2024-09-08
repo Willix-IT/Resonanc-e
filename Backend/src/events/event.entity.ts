@@ -15,6 +15,6 @@ export class Event {
   @Column('timestamp')
   endTime: Date;
 
-  @ManyToOne(() => User, user => user.events) 
+  @ManyToOne(() => User, (user) => user.events) 
   user: User;
 }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const ModalWrapper = styled.div`
   position: fixed;
@@ -23,13 +23,28 @@ const Overlay = styled.div`
   z-index: 999;
 `;
 
-const Modal: React.FC<{ onClose: () => void, onSubmit: (eventData: any) => void, timeSlot: any }> = ({ onClose, onSubmit, timeSlot }) => {
-  const [title, setTitle] = useState('');
-  const [startTime, setStartTime] = useState(timeSlot.startTime);
-  const [endTime, setEndTime] = useState(timeSlot.endTime);
+const Modal: React.FC<{
+  onClose: () => void;
+  onSubmit: (eventData: any) => void;
+  timeSlot: any;
+}> = ({ onClose, onSubmit, timeSlot }) => {
+  const [title, setTitle] = useState("");
+  const [startTime, setStartTime] = useState(timeSlot?.startTime || ""); // Ajoute une valeur par défaut vide
+  const [endTime, setEndTime] = useState(timeSlot?.endTime || ""); // Ajoute une valeur par défaut vide
 
   const handleSubmit = () => {
-    onSubmit({ title, startTime, endTime });
+    const eventStartTime = new Date(startTime);
+    const eventEndTime = new Date(endTime);
+    // Vérification du format Date correct
+    if (!isNaN(eventStartTime.getTime()) && !isNaN(eventEndTime.getTime())) {
+      onSubmit({
+        title,
+        startTime: eventStartTime.toISOString(), // Conversion en ISO string
+        endTime: eventEndTime.toISOString(), // Conversion en ISO string
+      });
+    } else {
+      console.error("Invalid Date");
+    }
   };
 
   return (
@@ -37,9 +52,21 @@ const Modal: React.FC<{ onClose: () => void, onSubmit: (eventData: any) => void,
       <Overlay onClick={onClose} />
       <ModalWrapper>
         <h2>Create Event</h2>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Event Title" />
-        <input value={startTime} onChange={(e) => setStartTime(e.target.value)} type="datetime-local" />
-        <input value={endTime} onChange={(e) => setEndTime(e.target.value)} type="datetime-local" />
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Event Title"
+        />
+        <input
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+          type="datetime-local"
+        />
+        <input
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
+          type="datetime-local"
+        />
         <button onClick={handleSubmit}>Create</button>
       </ModalWrapper>
     </>

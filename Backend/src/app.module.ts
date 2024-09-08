@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { EventsModule } from './events/events.module';
 import { User } from './users/user.entity';
 import { Event } from './events/event.entity';
 
@@ -27,7 +28,8 @@ import { Event } from './events/event.entity';
         synchronize: true,  // Ne pas activer en production (crée les tables automatiquement)
       }),
     }),
-    AuthModule
+    AuthModule,
+    EventsModule
   ],
   controllers: [AppController],
   providers: [AppService],
