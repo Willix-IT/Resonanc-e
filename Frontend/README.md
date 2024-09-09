@@ -1,68 +1,46 @@
-# Project Name
+# Getting Started with Create React App
 
-## Description
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Ce projet est une application web complète avec un backend en [NestJS](https://nestjs.com/), un frontend en [React](https://reactjs.org/), et une base de données [PostgreSQL](https://www.postgresql.org/). L'application permet aux utilisateurs de s'inscrire, de se connecter et de gérer des événements dans un calendrier interactif.
+## Available Scripts
 
-## Prérequis
+In the project directory, you can run:
 
-- [Node.js](https://nodejs.org/) (v14+)
-- [PostgreSQL](https://www.postgresql.org/) (v12+)
-- [Git](https://git-scm.com/)
+### `npm start`
 
-### Installation sous Windows / Linux
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-1. Clonez le repository et installez les dépendances :
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-```bash
-git clone https://github.com/Willix-IT/Resonanc-e.git
-cd Resonanc-e
-```
+### `npm test`
 
-### Backend
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-```bash
-cd Backend
-npm install
-```
+### `npm run build`
 
-- Créez un fichier .env dans le dossier Backend avec le contenu suivant
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-```bash
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=your_db_username
-DB_PASSWORD=your_db_password
-DB_NAME=your_db_name
-JWT_SECRET=your_jwt_secret
-```
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-- Créez une base de données PostgreSQL avec le nom your_db_name. Utilisez pgAdmin si nécessaire.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-- Vous pouvez lancer le back avec npm start
+### `npm run eject`
 
-### Frontend
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-Dans un autre terminal :
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```bash
-cd Frontend
-npm install
-```
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-- Assurez-vous que l'API dans api.ts pointe vers votre backend local
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-```javascript
-const API_URL = "http://localhost:3000";
-```
+## Learn More
 
-- Lancez le Frontend
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-```bash
-npm start
-```
-
-## Utilisation
-
-- Accédez à http://localhost:3001 pour voir l'application.
-- Inscrivez-vous, connectez-vous et gérez vos événements.
+To learn React, check out the [React documentation](https://reactjs.org/).
