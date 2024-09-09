@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FormField from "../molecules/FormField";
 import Button from "../atoms/Button";
+import Notification from "../atoms/Notification";
 
 interface AuthFormProps {
   onSubmit: (email: string, password: string, name?: string) => void; // Fonction à exécuter lors de la soumission du formulaire
@@ -12,6 +13,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit, isRegister }) => {
   const [name, setName] = useState(""); // Nom de l'utilisateur, utilisé uniquement lors de l'inscription
   const [email, setEmail] = useState(""); // Email de l'utilisateur
   const [password, setPassword] = useState(""); // Mot de passe de l'utilisateur
+  const [notification, setNotification] = useState<{
+    message: string;
+    success: boolean;
+  } | null>(null); // État pour gérer la notification
 
   // Fonction appelée lorsque le formulaire est soumis
   const handleSubmit = (e: React.FormEvent) => {
@@ -21,7 +26,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit, isRegister }) => {
       if (name) {
         onSubmit(email, password, name); // Passe l'email, le mot de passe et le nom à la fonction onSubmit
       } else {
-        alert("Name is required for registration"); // Alerte si le nom est manquant pour l'inscription
+        setNotification({
+          message: "Name is required for registration",
+          success: false,
+        }); // Remplace l'alerte par une notification
       }
     } else {
       // Si c'est une connexion
@@ -58,6 +66,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit, isRegister }) => {
         {isRegister ? "Register" : "Login"}
         {/* Bouton dynamique en fonction du type d'action (inscription ou connexion) */}
       </Button>
+      {notification && (
+        <Notification
+          message={notification.message}
+          success={notification.success}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </form>
   );
 };
