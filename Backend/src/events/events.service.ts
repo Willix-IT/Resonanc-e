@@ -48,7 +48,7 @@ export class EventsService {
     if (!event) {
       throw new Error('Event not found');
     }
-  
+    console.log("ici")
     // Mise à jour des champs
     event.title = updateEventDto.title;
     event.startTime = new Date(updateEventDto.startTime);

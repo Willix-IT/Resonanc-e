@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import DayColumnWithEvents from "../molecules/DayColumnWithEvents";
-import { createEvent } from "../../services/api";
+import { createEvent, updateEvent } from "../../services/api"; // Import de la fonction update
 import Modal from "../molecules/Modal";
+import EditEventModal from "../molecules/EditEventModal"; // Modal pour l'édition d'événements
 
 interface EventData {
   title: string;
@@ -30,13 +31,21 @@ const CalendarContainer = styled.div`
 
 const Calendar: React.FC<{ events: any[] }> = ({ events }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Nouvel état pour la modal d'édition
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(
     null
   );
+  const [selectedEvent, setSelectedEvent] = useState<any>(null); // État pour l'événement sélectionné
 
   const handleTimeSlotClick = (timeSlot: TimeSlot) => {
     setSelectedTimeSlot(timeSlot);
     setIsModalOpen(true);
+  };
+
+  const handleEventClick = (event: any) => {
+    // Fonction pour gérer le clic sur un événement
+    setSelectedEvent(event);
+    setIsEditModalOpen(true); // Ouvre la modal d'édition
   };
 
   const handleCreateEvent = async (eventData: EventData) => {
@@ -50,6 +59,18 @@ const Calendar: React.FC<{ events: any[] }> = ({ events }) => {
     }
   };
 
+  const handleUpdateEvent = async (updatedEvent: any) => {
+    // Fonction pour mettre à jour un événement
+    const token = localStorage.getItem("token");
+    try {
+      await updateEvent(token!, updatedEvent.id, updatedEvent); // Appel à l'API updateEvent
+      setIsEditModalOpen(false);
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to update event:", error);
+    }
+  };
+
   return (
     <div>
       <CalendarContainer>
@@ -59,9 +80,11 @@ const Calendar: React.FC<{ events: any[] }> = ({ events }) => {
             dayIndex={dayIndex}
             events={events}
             onTimeSlotClick={handleTimeSlotClick}
+            onEventClick={handleEventClick} // Ajout de la fonction onEventClick
           />
         ))}
       </CalendarContainer>
+
       {isModalOpen && (
         <Modal
           onClose={() => setIsModalOpen(false)}
@@ -69,6 +92,15 @@ const Calendar: React.FC<{ events: any[] }> = ({ events }) => {
           timeSlot={selectedTimeSlot}
         />
       )}
+
+      {isEditModalOpen &&
+        selectedEvent && ( // Affiche la modal d'édition
+          <EditEventModal
+            event={selectedEvent}
+            onClose={() => setIsEditModalOpen(false)}
+            onSave={handleUpdateEvent} // Sauvegarde des modifications
+          />
+        )}
     </div>
   );
 };
