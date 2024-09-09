@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import TextField from "../atoms/TextField";
+import Button from "../atoms/Button";
 
 const ModalWrapper = styled.div`
   position: fixed;
@@ -51,23 +53,29 @@ const Modal: React.FC<{
     <>
       <Overlay onClick={onClose} />
       <ModalWrapper>
-        <h2>Create Event</h2>
-        <input
+        <h2>Edit Event</h2>
+        <TextField
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Event Title"
+          type="text"
+          label="Title"
         />
-        <input
+        <TextField
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
           type="datetime-local"
+          label="StartTime"
+          placeholder=""
         />
-        <input
+        <TextField
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}
           type="datetime-local"
+          label="EndTime"
+          placeholder=""
         />
-        <button onClick={handleSubmit}>Create</button>
+        <Button onClick={onClose}>Cancel</Button>
       </ModalWrapper>
     </>
   );
