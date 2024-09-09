@@ -4,10 +4,10 @@ import TimeSlot from "../atoms/TimeSlot";
 import EventItem from "../atoms/EventItem";
 
 interface DayColumnWithEventsProps {
-  dayIndex: number;
-  events: any[];
-  onTimeSlotClick: (timeSlot: any) => void;
-  onEventClick: (event: any) => void; // Ajout de la fonction onClick pour les événements
+  dayIndex: number; // Index du jour de la semaine (0 pour Dimanche, 6 pour Samedi)
+  events: any[]; // Liste des événements associés à ce jour
+  onTimeSlotClick: (timeSlot: any) => void; // Fonction déclenchée lorsqu'un créneau horaire est cliqué
+  onEventClick: (event: any) => void; // Fonction déclenchée lorsqu'un événement est cliqué
 }
 
 const DayColumnWithEvents: React.FC<DayColumnWithEventsProps> = ({
@@ -18,6 +18,7 @@ const DayColumnWithEvents: React.FC<DayColumnWithEventsProps> = ({
 }) => {
   return (
     <DayColumn>
+      {/* Création des créneaux horaires de 0 à 23 heures */}
       {[...Array(24)].map((_, hourIndex) => (
         <TimeSlot
           key={hourIndex}
@@ -26,6 +27,8 @@ const DayColumnWithEvents: React.FC<DayColumnWithEventsProps> = ({
           {hourIndex}:00
         </TimeSlot>
       ))}
+
+      {/* Filtrage des événements qui correspondent au jour actuel et affichage */}
       {events
         .filter((event) => new Date(event.startTime).getDay() === dayIndex)
         .map((event, index) => (
@@ -33,9 +36,9 @@ const DayColumnWithEvents: React.FC<DayColumnWithEventsProps> = ({
             key={index}
             start={new Date(event.startTime).getHours()}
             end={new Date(event.endTime).getHours()}
-            onClick={() => onEventClick(event)}
+            onClick={() => onEventClick(event)} // Déclenchement lors du clic sur un événement
           >
-            {event.title}
+            {event.title} {/* Affichage du titre de l'événement */}
           </EventItem>
         ))}
     </DayColumn>

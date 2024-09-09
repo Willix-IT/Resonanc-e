@@ -11,27 +11,29 @@ import { Event } from './events/event.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
+      isGlobal: true, // Le module de configuration est accessible globalement à toute l'application
     }),
 
+    // Configuration asynchrone de TypeORM avec PostgreSQL, basée sur les variables d'environnement
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
+      imports: [ConfigModule], // Import du module de configuration pour accéder aux variables
+      inject: [ConfigService], // Injection du service de configuration
       useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_NAME'),
-        entities: [User, Event], 
-        synchronize: true,  // Ne pas activer en production (crée les tables automatiquement)
+        type: 'postgres', // Utilisation de la base de données PostgreSQL
+        host: configService.get<string>('DB_HOST'), // Récupère l'hôte de la base de données depuis les variables d'environnement
+        port: configService.get<number>('DB_PORT'), // Récupère le port de la base de données
+        username: configService.get<string>('DB_USERNAME'), // Récupère le nom d'utilisateur
+        password: configService.get<string>('DB_PASSWORD'), // Récupère le mot de passe
+        database: configService.get<string>('DB_NAME'), // Récupère le nom de la base de données
+        entities: [User, Event], // Entités utilisées dans la base de données (User et Event)
+        synchronize: true, // Synchronisation automatique des schémas de base de données (ne pas utiliser en production)
       }),
     }),
-    AuthModule,
-    EventsModule
+    AuthModule, // Module d'authentification
+    EventsModule, // Module de gestion des événements
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController], // Déclaration du contrôleur principal
+  providers: [AppService], // Déclaration du service principal
 })
+// AppModule est le module racine de l'application, qui configure l'accès à la base de données, l'authentification, et les événements.
 export class AppModule {}

@@ -31,18 +31,18 @@ const Modal: React.FC<{
   timeSlot: any;
 }> = ({ onClose, onSubmit, timeSlot }) => {
   const [title, setTitle] = useState("");
-  const [startTime, setStartTime] = useState(timeSlot?.startTime || ""); // Ajoute une valeur par défaut vide
-  const [endTime, setEndTime] = useState(timeSlot?.endTime || ""); // Ajoute une valeur par défaut vide
+  const [startTime, setStartTime] = useState(timeSlot?.startTime || ""); // Initialisation de l'heure de début
+  const [endTime, setEndTime] = useState(timeSlot?.endTime || ""); // Initialisation de l'heure de fin
 
   const handleSubmit = () => {
     const eventStartTime = new Date(startTime);
     const eventEndTime = new Date(endTime);
-    // Vérification du format Date correct
+    // Vérifie que les dates sont valides
     if (!isNaN(eventStartTime.getTime()) && !isNaN(eventEndTime.getTime())) {
       onSubmit({
         title,
-        startTime: eventStartTime.toISOString(), // Conversion en ISO string
-        endTime: eventEndTime.toISOString(), // Conversion en ISO string
+        startTime: eventStartTime.toISOString(), // Conversion de la date en chaîne ISO
+        endTime: eventEndTime.toISOString(), // Conversion de la date en chaîne ISO
       });
     } else {
       console.error("Invalid Date");

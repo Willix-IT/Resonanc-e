@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import Title from "../atoms/Title";
-import AuthForm from "../organisms/AuthForm";
-import NavigationMenu from "../molecules/NavigationMenu";
+import Title from "../atoms/Title"; // Import du titre comme atom
+import AuthForm from "../organisms/AuthForm"; // Import du formulaire d'authentification comme organisme
+import NavigationMenu from "../molecules/NavigationMenu"; // Import du menu de navigation comme molécule
 
 interface AuthTemplateProps {
-  isRegister: boolean;
-  onSubmit: (email: string, password: string, name?: string) => void;
+  isRegister: boolean; // Indique s'il s'agit d'une inscription ou d'une connexion
+  onSubmit: (email: string, password: string, name?: string) => void; // Fonction déclenchée lors de la soumission du formulaire
 }
 
-// Style pour le fond sombre et le cadre centré
+// Style pour le wrapper de la page d'authentification avec un fond sombre
 const AuthWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -18,6 +18,7 @@ const AuthWrapper = styled.div`
   background-color: #2c3e50; /* Fond sombre */
 `;
 
+// Style pour le conteneur du formulaire d'authentification
 const AuthContainer = styled.div`
   background-color: #34495e; /* Couleur du cadre */
   padding: 40px;
@@ -32,12 +33,14 @@ const AuthTemplate: React.FC<AuthTemplateProps> = ({
   onSubmit,
 }) => (
   <div>
-    <NavigationMenu />
+    <NavigationMenu /> {/* Affiche le menu de navigation en haut */}
     <AuthWrapper>
       <AuthContainer>
+        {/* Affiche le titre, soit "Register" soit "Login" */}
         <Title size="large" color="white">
           {isRegister ? "Register" : "Login"}
         </Title>
+        {/* Formulaire d'authentification */}
         <AuthForm isRegister={isRegister} onSubmit={onSubmit} />
       </AuthContainer>
     </AuthWrapper>

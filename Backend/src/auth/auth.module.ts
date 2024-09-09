@@ -10,18 +10,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
-    PassportModule,
+    TypeOrmModule.forFeature([User]), // Import du module TypeORM pour l'entité User
+    PassportModule, // Utilisation du module Passport pour l'authentification
     JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
+      imports: [ConfigModule], // Import du module de configuration pour accéder aux variables d'environnement
+      inject: [ConfigService], // Injection du service de configuration pour accéder aux variables
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '60m' },
+        secret: configService.get<string>('JWT_SECRET'), // Récupère la clé secrète JWT depuis les variables d'environnement
+        signOptions: { expiresIn: '60m' }, // Durée de validité des tokens JWT : 60 minutes
       }),
     }),
   ],
-  providers: [AuthService, JwtStrategy],
-  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy], // Fournit le service d'authentification et la stratégie JWT
+  controllers: [AuthController], // Déclare le contrôleur d'authentification pour gérer les routes
 })
+// Le module AuthModule gère toute la logique d'authentification, incluant JWT et Passport.
 export class AuthModule {}

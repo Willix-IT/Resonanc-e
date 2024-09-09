@@ -26,30 +26,31 @@ const Overlay = styled.div`
 `;
 
 interface EditEventModalProps {
-  event: any;
-  onClose: () => void;
-  onSave: (updatedEvent: any) => void;
+  event: any; // L'événement à éditer
+  onClose: () => void; // Fonction appelée pour fermer la modal
+  onSave: (updatedEvent: any) => void; // Fonction appelée pour sauvegarder l'événement édité
 }
 
 const formatDateForInput = (date: string | Date) => {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = ('0' + (d.getMonth() + 1)).slice(-2);  // Ajout du 0 si nécessaire
-    const day = ('0' + d.getDate()).slice(-2);            // Ajout du 0 si nécessaire
-    const hours = ('0' + d.getHours()).slice(-2);          // Ajout du 0 si nécessaire
-    const minutes = ('0' + d.getMinutes()).slice(-2);      // Ajout du 0 si nécessaire
-    return `${year}-${month}-${day}T${hours}:${minutes}`;  // Format YYYY-MM-DDTHH:MM
-  };
-  
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = ("0" + (d.getMonth() + 1)).slice(-2);
+  const day = ("0" + d.getDate()).slice(-2);
+  const hours = ("0" + d.getHours()).slice(-2);
+  const minutes = ("0" + d.getMinutes()).slice(-2);
+  return `${year}-${month}-${day}T${hours}:${minutes}`; // Format pour l'input datetime-local
+};
+
 const EditEventModal: React.FC<EditEventModalProps> = ({
   event,
   onClose,
   onSave,
 }) => {
-  const [title, setTitle] = useState(event.title);
-  const [startTime, setStartTime] = useState(formatDateForInput(event.startTime));
-  const [endTime, setEndTime] = useState(formatDateForInput(event.endTime));
-  console.log(event.startTime, event.endTime)
+  const [title, setTitle] = useState(event.title); // État pour le titre de l'événement
+  const [startTime, setStartTime] = useState(
+    formatDateForInput(event.startTime)
+  ); // État pour l'heure de début
+  const [endTime, setEndTime] = useState(formatDateForInput(event.endTime)); // État pour l'heure de fin
 
   const handleSave = () => {
     onSave({
@@ -57,8 +58,8 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
       title,
       startTime,
       endTime,
-    });
-    onClose();
+    }); // Appelle la fonction onSave avec les nouvelles valeurs
+    onClose(); // Ferme la modal
   };
 
   return (
@@ -95,4 +96,3 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
 };
 
 export default EditEventModal;
-
