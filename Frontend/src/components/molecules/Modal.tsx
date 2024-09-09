@@ -53,7 +53,7 @@ const Modal: React.FC<{
     <>
       <Overlay onClick={onClose} />
       <ModalWrapper>
-        <h2>Edit Event</h2>
+        <h2>Create Event</h2>
         <TextField
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -75,7 +75,7 @@ const Modal: React.FC<{
           label="EndTime"
           placeholder=""
         />
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleSubmit}>Save</Button>
       </ModalWrapper>
     </>
   );

@@ -19,7 +19,7 @@ interface TimeSlot {
 const CalendarContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(24, 60px);
+  grid-template-rows: auto repeat(23, 60px);  // Ligne ajoutée pour les jours de la semaine
   gap: 1px;
   max-width: 1200px;
   margin: 20px auto;
@@ -28,6 +28,19 @@ const CalendarContainer = styled.div`
   border-radius: 8px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
 `;
+
+const WeekDays = styled.div`
+  grid-column: span 7;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: #34495e;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+`;
+
+const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const Calendar: React.FC<{ events: any[] }> = ({ events }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,7 +86,13 @@ const Calendar: React.FC<{ events: any[] }> = ({ events }) => {
 
   return (
     <div>
+      <WeekDays>
+          {daysOfWeek.map((day) => (
+            <div key={day}>{day}</div>
+          ))}
+        </WeekDays>
       <CalendarContainer>
+        
         {[...Array(7)].map((_, dayIndex) => (
           <DayColumnWithEvents
             key={dayIndex}

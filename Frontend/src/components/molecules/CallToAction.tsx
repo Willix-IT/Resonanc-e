@@ -6,7 +6,6 @@ const CallToAction: React.FC = () => (
     <Button onClick={() => (window.location.href = "/login")}>Login</Button>
     <Button
       onClick={() => (window.location.href = "/register")}
-      variant="secondary"
     >
       Register
     </Button>
